@@ -1,56 +1,56 @@
 import java.util.*;
 
-public class Ship{
-  
+public class Ship {
+
   private int shipX, shipY, sizeX, sizeY, length;
   private boolean sunk = false;
 
-  public Ship(int length){
+  public Ship(int length) {
     Random r = new Random();
     this.length = length;
-    
-    //randomly determine orientation and position
-    if(r.nextInt(2) == 1){
+
+    // randomly determine orientation and position
+    if (r.nextInt(2) == 1) {
       shipX = r.nextInt(10 - length - 2);
       sizeX = length;
       shipY = r.nextInt(9);
       sizeY = 1;
-      
+
     } else {
       shipX = r.nextInt(9);
       sizeX = 1;
       shipY = r.nextInt(10 - length - 2);
       sizeY = length;
-      
+
     }
   }
-  
-  public void sink(){
+
+  public void sink() {
     sunk = true;
   }
-  
-  //accessor methods for various vairables
-  public int getShipX(){
+
+  // accessor methods for various vairables
+  public int getShipX() {
     return shipX;
   }
-  
-  public int getShipY(){
+
+  public int getShipY() {
     return shipY;
   }
-  
-  public int getSizeX(){
+
+  public int getSizeX() {
     return sizeX;
   }
-  
-  public int getSizeY(){
+
+  public int getSizeY() {
     return sizeY;
   }
-  
-  public int length(){
+
+  public int length() {
     return length;
   }
-  
-  public boolean getSunk(){
+
+  public boolean getSunk() {
     return sunk;
   }
 }
