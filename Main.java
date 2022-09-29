@@ -2,18 +2,18 @@ import java.util.*;
 
 class Main {
   
-  private static Board user = new Board();
-  private static Board comp = new Board();
-  private static Scanner k = new Scanner(System.in);
-  private static Random r = new Random();
-  
-  private static boolean prevHit = false;
-  private static int LHlett = 0, LHnum = 0;
-  
-  private static ArrayList<Integer[]> prevHits = new ArrayList<Integer[]>();
+  private Board user;
+  private Board comp;
+  private Scanner k;
+  private Opponent opp;
     
-  public static void main(String[] args) {
+  public void main(String[] args) {
     
+    user = new Board();
+    comp = new Board();
+    k = new Scanner(System.in);
+    opp  = new Opponent(user, comp);
+
     //loop lets user reroll board
     boolean ok = false;
     while(!ok){
@@ -34,7 +34,7 @@ class Main {
     //loop for game rounds
     while(getWinner() == 0){
       
-      compSmartGuess();
+      opp.compSmartGuess();
       
       boolean badInput = true;
       while(badInput){
@@ -56,104 +56,16 @@ class Main {
                     user.guess(comp.checkHit(lett, num), lett, num);
                     user.printBoard();
                     badInput = false;
-                    winner(getWinner());
+                    winnerOutput(getWinner());
                   } 
                 }
               }
             }
           }
         }catch(NumberFormatException e){
-                    
+          
         }
       }
-    }
-  }
-  
-  //method for computer to guess somewhat intelligently
-  public static void compSmartGuess(){
-    try {
-    char lett = 'a';
-    int lettInd, num, LHtries = 0;
-    LHlett = (int)LHlett > 97 ? LHlett - 97 : LHlett;
-    
-    if(!prevHit){
-      lettInd = r.nextInt(10);
-      num = r.nextInt(9) + 1;
-    } else if (r.nextInt(2) == 1){
-      lettInd = LHlett;
-      num = LHnum - 2 + r.nextInt(3);
-      LHtries = 0;
-    } else {
-      lettInd = LHlett - 3 + r.nextInt(3);
-      num = LHnum;
-      LHtries = 0;
-    }
-    
-    for(int i = 0; i < lettInd; i++){
-      lett++;
-    }
-    
-    LHlett = (int)LHlett > 96 ? LHlett - 96 : LHlett;
-    //prevent duplicate guesses
-    while(comp.checkGuess(lett, num)){
-      LHlett = (int)LHlett > 96 ? LHlett - 96 : LHlett;
-      if(!prevHit){
-        lettInd = r.nextInt(10);
-        num = r.nextInt(10) + 1;
-      } else if (r.nextInt(2) == 1){
-        lettInd = LHlett;
-        num = LHnum - 1 + r.nextInt(3);
-        LHtries++;
-      } else {
-        lettInd = LHlett - 1 + r.nextInt(3);
-        num = LHnum;
-        LHtries++;
-      }
-      
-      if(LHtries > 20){
-        if(prevHits.size() == 1){
-          prevHit = false;
-          LHtries = 0;
-          prevHits.clear();
-        } else {
-          prevHits.remove(prevHits.size() - 1);
-          LHtries = 0;
-        }
-      }
-      
-      lett = 'a';
-      for(int i = 0; i < lettInd; i++){
-        lett++;
-      }
-    }
-    
-    //check if hit or miss then output accordingly
-    boolean hit = user.checkHit(lett, num);
-    comp.guess(hit, lett, num);
-    System.out.println(LHtries);
-    System.out.println(prevHit);
-    // System.out.println(LHlett);
-    // System.out.println(LHnum);
-    if(hit){
-      LHlett = (int)lett;
-      LHnum = num;
-      prevHit = true;
-      Integer hitLoc[] = {(int)lett, num};
-      prevHits.add(hitLoc);
-    }
-    if(prevHits.size() != 0){
-    System.out.println(prevHits.get(prevHits.size() - 1)[0] + " " + prevHits.get(prevHits.size() - 1)[1]);
-    }
-    if(hit){
-      System.out.println("The computer guessed " + lett + num + ". It was a hit!");
-    } else {
-      System.out.println("The computer guessed " + lett + num + ". It was a miss!");
-    }
-    winner(getWinner());
-    
-    LHlett = (int)LHlett > 96 ? LHlett - 96 : LHlett;
-    } catch (Exception e){
-      compSmartGuess();
     }
   }
   
@@ -161,7 +73,7 @@ class Main {
   //0: no winner
   //1: user wins
   //2: comp wins
-  public static int getWinner(){
+  public int getWinner(){
     if (comp.checkWin()){
       return 1;
     } else if (user.checkWin()){
@@ -171,7 +83,7 @@ class Main {
     }
   }
   
-  public static void winner(int winner){
+  public void winnerOutput(int winner){
     if (winner == 1){
       System.out.println("Congrats! You Win!");
       System.exit(0);
