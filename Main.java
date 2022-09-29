@@ -2,17 +2,12 @@ import java.util.*;
 
 class Main {
 
-  private Board user;
-  private Board comp;
-  private Scanner k;
-  private Opponent opp;
+  public static void main(String[] args) {
 
-  public void main(String[] args) {
-
-    user = new Board();
-    comp = new Board();
-    k = new Scanner(System.in);
-    opp = new Opponent(user, comp);
+    Board user = new Board();
+    Board comp = new Board();
+    Scanner k = new Scanner(System.in);
+    Opponent opp = new Opponent(user, comp);
 
     // loop lets user reroll board
     boolean ok = false;
@@ -32,7 +27,7 @@ class Main {
     }
 
     // loop for game rounds
-    while (getWinner() == 0) {
+    while (getWinner(user, comp) == 0) {
 
       opp.compSmartGuess();
 
@@ -56,7 +51,7 @@ class Main {
                     user.guess(comp.checkHit(lett, num), lett, num);
                     user.printBoard();
                     badInput = false;
-                    winnerOutput(getWinner());
+                    winnerOutput(getWinner(user, comp));
                   }
                 }
               }
@@ -67,13 +62,14 @@ class Main {
         }
       }
     }
+    k.close();
   }
 
   // returns winner
   // 0: no winner
   // 1: user wins
   // 2: comp wins
-  public int getWinner() {
+  public static int getWinner(Board user, Board comp) {
     if (comp.checkWin()) {
       return 1;
     } else if (user.checkWin()) {
@@ -83,7 +79,7 @@ class Main {
     }
   }
 
-  public void winnerOutput(int winner) {
+  public static void winnerOutput(int winner) {
     if (winner == 1) {
       System.out.println("Congrats! You Win!");
       System.exit(0);
