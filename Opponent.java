@@ -21,8 +21,9 @@ public class Opponent {
         prevHit = false;
         this.comp = comp;
         this.user = user;
-    }
+    } // Opponent
 
+    // handle computer guesses
     public void compSmartGuess() {
         try {
             lett = 'a';
@@ -39,31 +40,30 @@ public class Opponent {
         } catch (Exception e) {
             compSmartGuess();
         }
-    }
+    } // compSmartGuess
 
     // determine guesses dased on either a random number, or on previous hits
     private void chooseGuess(){
         LHlett = (int) LHlett > 97 ? LHlett - 97 : LHlett;
 
-            if (!prevHit) {
-                guessLett = r.nextInt(10);
-                guessNum = r.nextInt(9) + 1;
-            } else if (r.nextInt(2) == 1) {
-                guessLett = LHlett;
-                guessNum = LHnum - 2 + r.nextInt(3);
-                LHtries = 0;
-            } else {
-                guessLett = LHlett - 3 + r.nextInt(3);
-                guessNum = LHnum;
-                LHtries = 0;
-            }
+        if (!prevHit) {
+            guessLett = r.nextInt(10);
+            guessNum = r.nextInt(9) + 1;
+        } else if (r.nextInt(2) == 1) {
+            guessLett = LHlett;
+            guessNum = LHnum - 2 + r.nextInt(3);
+            LHtries = 0;
+        } else {
+            guessLett = LHlett - 3 + r.nextInt(3);
+            guessNum = LHnum;
+            LHtries = 0;
+        }
 
-            for (int i = 1; i < guessLett; i++) {
-                lett++;
-            }
+        for (int i = 1; i < guessLett; i++) {
+            lett++;
+        }
 
-            LHlett = (int) LHlett > 97 ? LHlett - 97 : LHlett;
-    }
+    }// chooseGuess
 
     // prevent duplicate guesses
     private void checkDuplicate(){
@@ -98,7 +98,7 @@ public class Opponent {
                 lett++;
             }
         }
-    }
+    } // checkDuplicate
 
     // check if hit or miss
     private void handleGuess(){
@@ -112,7 +112,7 @@ public class Opponent {
             Integer hitLoc[] = { (int) lett, guessNum };
             prevHits.add(hitLoc);
         }
-    }
+    } // handleGuess
 
     // output according to guess
     private void guessOutput(){
@@ -124,6 +124,6 @@ public class Opponent {
         } else {
             System.out.println("The computer guessed " + lett + guessNum + ". It was a miss!");
         }
-    }
+    } // guessOutput
 
-}
+}// Opponent

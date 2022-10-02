@@ -13,25 +13,26 @@ class Main {
     boolean ok = false;
     while (!ok) {
       user.printBoard();
-
       String input = "";
+
       while (!input.equals("N") && !input.equals("n") && !input.equals("Y") && !input.equals("y")) {
         System.out.println("Is this Board OK? (Y/N)");
         input = k.nextLine();
+
         if (input.equals("N") || input.equals("n")) {
           user = new Board();
         } else {
           ok = true;
         }
+
       }
     }
 
     // loop for game rounds
     while (getWinner(user, comp) == 0) {
-
       opp.compSmartGuess();
-
       boolean badInput = true;
+
       while (badInput) {
         try {
           // break user input into useful values
@@ -44,26 +45,31 @@ class Main {
             if (guess.charAt(0) >= 'a' && guess.charAt(0) <= 'j') {
               if ((int) guess.charAt(1) < 58 && (int) guess.charAt(1) > 48) {
                 if ((int) Integer.parseInt(guess.substring(1)) <= 10) {
+
+                  // break user input into useful values
                   char lett = guess.charAt(0);
                   int num = Integer.parseInt(guess.substring(1));
 
+                  // call methods to run the game
                   if (!user.checkGuess(lett, num)) {
                     user.guess(comp.checkHit(lett, num), lett, num);
                     user.printBoard();
                     badInput = false;
                     winnerOutput(getWinner(user, comp));
                   }
+
                 }
               }
             }
           }
+
         } catch (NumberFormatException e) {
 
         }
       }
     }
     k.close();
-  }
+  }// main
 
   // returns winner
   // 0: no winner
@@ -77,7 +83,7 @@ class Main {
     } else {
       return 0;
     }
-  }
+  }// getWinner
 
   public static void winnerOutput(int winner) {
     if (winner == 1) {
@@ -87,7 +93,8 @@ class Main {
       System.out.println("The computer won.");
       System.exit(0);
     }
-  }
+  }// winnerOutput
+
 }
 // TODO fix comp guess moving 2 away or both directions (prob try / catch issue)
 // TODO better comp opponent

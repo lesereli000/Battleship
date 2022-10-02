@@ -23,34 +23,35 @@ public class Ship {
       sizeY = length;
 
     }
-  }
+  }// Ship
 
+  // mark a ship as sunk
   public void sink() {
     sunk = true;
-  }
+  }// sink
 
   // accessor methods for various vairables
   public int getShipX() {
     return shipX;
-  }
+  }// getShipX
 
   public int getShipY() {
     return shipY;
-  }
+  }// getShipY
 
   public int getSizeX() {
     return sizeX;
-  }
+  }// getSizeX
 
   public int getSizeY() {
     return sizeY;
-  }
+  }//getSizeY
 
   public int length() {
     return length;
-  }
+  }//length
 
   public boolean getSunk() {
     return sunk;
-  }
-}
+  }// getSunk
+}// Ship
