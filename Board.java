@@ -62,25 +62,25 @@ public class Board {
   }// rollShip
 
   // check if a guess is a hit
-  public boolean checkHit(char lett, int num) {
-    Board[(int) lett - 97][num - 1] = Board[(int) lett - 97][num - 1] + 2;
-    Ships[(int) lett - 97][num - 1] = Ships[(int) lett - 97][num - 1] + 2;
-    return Board[(int) lett - 97][num - 1] == 3;
+  public boolean checkHit(int lett, int num) {
+    Board[lett][num - 1] = Board[lett][num - 1] + 2;
+    Ships[lett][num - 1] = Ships[lett][num - 1] + 2;
+    return Board[lett][num - 1] == 3;
   }// checkHit
 
   // change guess array to reflect guesses
-  public void guess(boolean hit, char lett, int num) {
+  public void guess(boolean hit, int lett, int num) {
     if (hit) {
-      Guess[(int) lett - 97][num - 1] = 1;
+      Guess[lett][num - 1] = 1;
     } else {
-      Guess[(int) lett - 97][num - 1] = 2;
+      Guess[lett][num - 1] = 2;
     }
-    checkSunk((int) lett, num);
+    checkSunk(lett, num);
   }// guess
 
   // check for duplicate guesses
-  public boolean checkGuess(char lett, int num) {
-    return Guess[(int) lett - 97][num - 1] != 0;
+  public boolean checkGuess(int lett, int num) {
+    return Guess[lett][num - 1] != 0;
   }// checkGuess
 
   // check if a ship has been sunk
@@ -128,7 +128,7 @@ public class Board {
 
       }
     }
-    
+
     return count == 0;
   }// checkWin
 

@@ -7,7 +7,6 @@ public class Opponent {
     private int LHlett, LHnum, LHtries, guessLett, guessNum;
     private ArrayList<Integer[]> prevHits;
     private boolean prevHit, hit;
-    private char lett;
     private Board comp;
     private Board user;
 
@@ -26,7 +25,6 @@ public class Opponent {
     // handle computer guesses
     public void compSmartGuess() {
         try {
-            lett = 'a';
             LHtries = 0;
             
             chooseGuess();
@@ -51,36 +49,20 @@ public class Opponent {
             guessNum = r.nextInt(9) + 1;
         } else if (r.nextInt(2) == 1) {
             guessLett = LHlett;
-            guessNum = LHnum - 2 + r.nextInt(3);
-            LHtries = 0;
+            guessNum = LHnum - 1 + r.nextInt(3);
         } else {
-            guessLett = LHlett - 3 + r.nextInt(3);
+            guessLett = LHlett - 1 + r.nextInt(3);
             guessNum = LHnum;
-            LHtries = 0;
-        }
-
-        for (int i = 1; i < guessLett; i++) {
-            lett++;
         }
 
     }// chooseGuess
 
     // prevent duplicate guesses
     private void checkDuplicate(){
-        while (comp.checkGuess(lett, guessNum)) {
+        while (comp.checkGuess(guessLett, guessNum)) {
             LHlett = (int) LHlett > 96 ? LHlett - 96 : LHlett;
-            if (!prevHit) {
-                guessLett = r.nextInt(10);
-                guessNum = r.nextInt(10) + 1;
-            } else if (r.nextInt(2) == 1) {
-                guessLett = LHlett;
-                guessNum = LHnum - 1 + r.nextInt(3);
-                LHtries++;
-            } else {
-                guessLett = LHlett - 1 + r.nextInt(3);
-                guessNum = LHnum;
-                LHtries++;
-            }
+            chooseGuess();
+            LHtries++;
 
             if (LHtries > 20) {
                 if (prevHits.size() == 1) {
@@ -93,23 +75,23 @@ public class Opponent {
                 }
             }
 
-            lett = 'a';
+            guessLett = 'a';
             for (int i = 0; i < guessLett; i++) {
-                lett++;
+                guessLett++;
             }
         }
     } // checkDuplicate
 
     // check if hit or miss
     private void handleGuess(){
-        hit = user.checkHit(lett, guessNum);
-        comp.guess(hit, lett, guessNum);
+        hit = user.checkHit(guessLett, guessNum);
+        comp.guess(hit, guessLett, guessNum);
 
         if (hit) {
-            LHlett = (int) lett;
+            LHlett = (int) guessLett;
             LHnum = guessNum;
             prevHit = true;
-            Integer hitLoc[] = { (int) lett, guessNum };
+            Integer hitLoc[] = { (int) guessLett, guessNum };
             prevHits.add(hitLoc);
         }
     } // handleGuess
@@ -120,9 +102,9 @@ public class Opponent {
             System.out.println(prevHits.get(prevHits.size() - 1)[0] + " " + prevHits.get(prevHits.size() - 1)[1]);
         }
         if (hit) {
-            System.out.println("The computer guessed " + lett + guessNum + ". It was a hit!");
+            System.out.println("The computer guessed " + guessLett + guessNum + ". It was a hit!");
         } else {
-            System.out.println("The computer guessed " + lett + guessNum + ". It was a miss!");
+            System.out.println("The computer guessed " + guessLett + guessNum + ". It was a miss!");
         }
     } // guessOutput
 
