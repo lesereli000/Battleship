@@ -48,11 +48,12 @@ class Main {
 
                   // break user input into useful values
                   char lett = guess.charAt(0);
-                  int num = Integer.parseInt(guess.substring(1));
+                  int num = Integer.parseInt(guess.substring(1)) - 1;
+                  int userLett = (int) lett - 97;
 
                   // call methods to run the game
-                  if (!user.checkGuess(lett, num)) {
-                    user.guess(comp.checkHit(lett, num), lett, num);
+                  if (!user.checkGuess(userLett, num)) {
+                    user.guess(comp.checkHit(userLett, num), userLett, num);
                     user.printBoard();
                     badInput = false;
                     winnerOutput(getWinner(user, comp));

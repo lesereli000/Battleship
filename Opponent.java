@@ -42,11 +42,11 @@ public class Opponent {
 
     // determine guesses dased on either a random number, or on previous hits
     private void chooseGuess(){
-        LHlett = (int) LHlett > 97 ? LHlett - 97 : LHlett;
+        LHlett = LHlett > 97 ? LHlett - 97 : LHlett;
 
         if (!prevHit) {
             guessLett = r.nextInt(10);
-            guessNum = r.nextInt(9) + 1;
+            guessNum = r.nextInt(10);
         } else if (r.nextInt(2) == 1) {
             guessLett = LHlett;
             guessNum = LHnum - 1 + r.nextInt(3);
@@ -60,7 +60,7 @@ public class Opponent {
     // prevent duplicate guesses
     private void checkDuplicate(){
         while (comp.checkGuess(guessLett, guessNum)) {
-            LHlett = (int) LHlett > 96 ? LHlett - 96 : LHlett;
+            LHlett = LHlett > 96 ? LHlett - 96 : LHlett;
             chooseGuess();
             LHtries++;
 
@@ -74,11 +74,6 @@ public class Opponent {
                     LHtries = 0;
                 }
             }
-
-            guessLett = 'a';
-            for (int i = 0; i < guessLett; i++) {
-                guessLett++;
-            }
         }
     } // checkDuplicate
 
@@ -88,10 +83,10 @@ public class Opponent {
         comp.guess(hit, guessLett, guessNum);
 
         if (hit) {
-            LHlett = (int) guessLett;
+            LHlett = guessLett;
             LHnum = guessNum;
             prevHit = true;
-            Integer hitLoc[] = { (int) guessLett, guessNum };
+            Integer hitLoc[] = {guessLett, guessNum};
             prevHits.add(hitLoc);
         }
     } // handleGuess
@@ -101,10 +96,16 @@ public class Opponent {
         if (prevHits.size() != 0) {
             System.out.println(prevHits.get(prevHits.size() - 1)[0] + " " + prevHits.get(prevHits.size() - 1)[1]);
         }
+
+        char lett = 'a';
+        for(int i = 0; i < guessLett; i++){
+            lett++;
+        }
+
         if (hit) {
-            System.out.println("The computer guessed " + guessLett + guessNum + ". It was a hit!");
+            System.out.println("The computer guessed " + lett + (guessNum + 1) + ". It was a hit!");
         } else {
-            System.out.println("The computer guessed " + guessLett + guessNum + ". It was a miss!");
+            System.out.println("The computer guessed " + lett + (guessNum + 1) + ". It was a miss!");
         }
     } // guessOutput
 

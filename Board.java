@@ -63,24 +63,24 @@ public class Board {
 
   // check if a guess is a hit
   public boolean checkHit(int lett, int num) {
-    Board[lett][num - 1] = Board[lett][num - 1] + 2;
-    Ships[lett][num - 1] = Ships[lett][num - 1] + 2;
-    return Board[lett][num - 1] == 3;
+    Board[lett][num] += 2;
+    Ships[lett][num] += 2;
+    return Board[lett][num] == 3;
   }// checkHit
 
   // change guess array to reflect guesses
   public void guess(boolean hit, int lett, int num) {
     if (hit) {
-      Guess[lett][num - 1] = 1;
+      Guess[lett][num] = 1;
     } else {
-      Guess[lett][num - 1] = 2;
+      Guess[lett][num] = 2;
     }
     checkSunk(lett, num);
   }// guess
 
   // check for duplicate guesses
   public boolean checkGuess(int lett, int num) {
-    return Guess[lett][num - 1] != 0;
+    return Guess[lett][num] != 0;
   }// checkGuess
 
   // check if a ship has been sunk
