@@ -14,8 +14,8 @@ public class Opponent {
         r = new Random();
         LHlett = 0;
         LHnum = 0;
-        guessLett = 0;
-        guessNum = 0;
+        guessLett = r.nextInt(10);
+        guessNum = r.nextInt(10);
         prevHits = new ArrayList<Integer[]>();
         prevHit = false;
         this.comp = comp;
@@ -26,8 +26,6 @@ public class Opponent {
     public void compSmartGuess() {
         try {
             LHtries = 0;
-            
-            chooseGuess();
             
             checkDuplicate();
 
@@ -60,7 +58,7 @@ public class Opponent {
     // prevent duplicate guesses
     private void checkDuplicate(){
         while (comp.checkGuess(guessLett, guessNum)) {
-            LHlett = LHlett > 96 ? LHlett - 96 : LHlett;
+            LHlett = LHlett > 97 ? LHlett - 97 : LHlett;
             chooseGuess();
             LHtries++;
 
@@ -93,10 +91,6 @@ public class Opponent {
 
     // output according to guess
     private void guessOutput(){
-        if (prevHits.size() != 0) {
-            System.out.println(prevHits.get(prevHits.size() - 1)[0] + " " + prevHits.get(prevHits.size() - 1)[1]);
-        }
-
         char lett = 'a';
         for(int i = 0; i < guessLett; i++){
             lett++;
