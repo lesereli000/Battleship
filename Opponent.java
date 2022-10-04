@@ -53,6 +53,13 @@ public class Opponent {
             guessNum = LHnum;
         }
 
+        if(guessLett < 0 || guessNum < 0){
+            chooseGuess();
+        }
+        if(guessLett > 9 || guessNum > 9){
+            chooseGuess();
+        }
+
     }// chooseGuess
 
     // prevent duplicate guesses
@@ -62,13 +69,16 @@ public class Opponent {
             chooseGuess();
             LHtries++;
 
-            if (LHtries > 20) {
+            if (LHtries > 20) { // 20 is an arbitrary value for the number of times the code will try to guess before saying 'oh I must have gotten all the squares around me'
                 if (prevHits.size() == 1) {
-                    prevHit = false;
-                    LHtries = 0;
                     prevHits.clear();
+                    prevHit = false;
+                    chooseGuess();
+                    break;
                 } else {
                     prevHits.remove(prevHits.size() - 1);
+                    LHlett = prevHits.get(prevHits.size() - 1)[0];
+                    LHnum = prevHits.get(prevHits.size() - 1)[1];
                     LHtries = 0;
                 }
             }
@@ -84,7 +94,7 @@ public class Opponent {
             LHlett = guessLett;
             LHnum = guessNum;
             prevHit = true;
-            Integer hitLoc[] = {guessLett, guessNum};
+            Integer[] hitLoc = {guessLett, guessNum};
             prevHits.add(hitLoc);
         }
     } // handleGuess

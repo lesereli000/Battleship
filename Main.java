@@ -97,6 +97,4 @@ class Main {
   }// winnerOutput
 
 }
-// TODO fix comp guess moving 2 away or both directions (prob try / catch issue)
-// TODO better comp opponent
-// ArrayList of previous hits in chain to fall back on
+// TODO fix bug causing duplicate guesses
