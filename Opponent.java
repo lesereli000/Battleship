@@ -4,7 +4,7 @@ import java.util.Random;
 public class Opponent {
 
     private Random r;
-    private int LHlett, LHnum, LHtries, guessLett, guessNum;
+    private int LHlett, LHnum, guessLett, guessNum;
     private ArrayList<Integer[]> prevHits;
     private boolean prevHit, hit;
     private Board comp;
@@ -25,7 +25,6 @@ public class Opponent {
     // handle computer guesses
     public void compSmartGuess() {
         try {
-            LHtries = 0;
             
             checkDuplicate();
 
@@ -67,9 +66,31 @@ public class Opponent {
         while (comp.checkGuess(guessLett, guessNum)) {
             LHlett = LHlett > 97 ? LHlett - 97 : LHlett;
             chooseGuess();
-            LHtries++;
 
-            if (LHtries > 20) { // 20 is an arbitrary value for the number of times the code will try to guess before saying 'oh I must have gotten all the squares around me'
+            boolean done = true;
+
+            if(LHlett > 0){
+                if(!comp.checkGuess(LHlett - 1, LHnum)){
+                    done = false;
+                }
+            }
+            if(LHnum > 0){
+                if(!comp.checkGuess(LHlett, LHnum - 1)){
+                    done = false;
+                }
+            }
+            if(LHlett < 9){
+                if(!comp.checkGuess(LHlett + 1, LHnum)){
+                    done = false;
+                }
+            }
+            if(LHnum < 9){
+                if(!comp.checkGuess(LHlett, LHnum + 1)){
+                    done = false;
+                }
+            }
+
+            if (done) { 
                 if (prevHits.size() == 1) {
                     prevHits.clear();
                     prevHit = false;
@@ -79,7 +100,6 @@ public class Opponent {
                     prevHits.remove(prevHits.size() - 1);
                     LHlett = prevHits.get(prevHits.size() - 1)[0];
                     LHnum = prevHits.get(prevHits.size() - 1)[1];
-                    LHtries = 0;
                 }
             }
         }

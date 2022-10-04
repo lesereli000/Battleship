@@ -10,8 +10,8 @@ class Main {
     Opponent opp = new Opponent(user, comp);
 
     // loop lets user reroll board
-    boolean ok = false;
-    while (!ok) {
+    boolean okBoard = false;
+    while (!okBoard) {
       user.printBoard();
       String input = "";
 
@@ -22,7 +22,7 @@ class Main {
         if (input.equals("N") || input.equals("n")) {
           user = new Board();
         } else {
-          ok = true;
+          okBoard = true;
         }
 
       }
@@ -98,3 +98,4 @@ class Main {
 
 }
 // TODO fix bug causing duplicate guesses
+// TODO fix bug causing false hits
