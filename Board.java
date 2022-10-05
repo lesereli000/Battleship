@@ -80,7 +80,7 @@ public class Board {
 
   // check for duplicate guesses
   public boolean checkGuess(int lett, int num) {
-    return Guess[lett][num] != 0;
+    return !(Guess[lett][num] == 0);
   }// checkGuess
 
   // check if a ship has been sunk
@@ -180,4 +180,9 @@ public class Board {
 
     System.out.println();
   }// printBoard
+
+  public int getBoardAt(int guessLett, int guessNum){
+    return Board[guessLett][guessNum];
+  }
+
 }// Board

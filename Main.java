@@ -97,5 +97,5 @@ class Main {
   }// winnerOutput
 
 }
-// TODO fix bug causing duplicate guesses
 // TODO fix bug causing false hits
+// TODO fix bug causing failure to display comp guesses

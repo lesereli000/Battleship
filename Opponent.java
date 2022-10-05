@@ -64,49 +64,56 @@ public class Opponent {
     // prevent duplicate guesses
     private void checkDuplicate(){
         while (comp.checkGuess(guessLett, guessNum)) {
-            LHlett = LHlett > 97 ? LHlett - 97 : LHlett;
             chooseGuess();
 
-            boolean done = true;
+            if(prevHits.size() != 0){
+                // check if all neighbors have been guessed
+                boolean done = true;
+                if(LHlett > 0){
+                    if(!comp.checkGuess(LHlett - 1, LHnum)){
+                        done = false;
+                    }
+                }
+                if(LHnum > 0){
+                    if(!comp.checkGuess(LHlett, LHnum - 1)){
+                        done = false;
+                    }
+                }
+                if(LHlett < 9){
+                    if(!comp.checkGuess(LHlett + 1, LHnum)){
+                        done = false;
+                    }
+                }
+                if(LHnum < 9){
+                    if(!comp.checkGuess(LHlett, LHnum + 1)){
+                        done = false;
+                    }
+                }
 
-            if(LHlett > 0){
-                if(!comp.checkGuess(LHlett - 1, LHnum)){
-                    done = false;
+                if (done) { 
+                    if (prevHits.size() == 1) {
+                        prevHits.clear();
+                        prevHit = false;
+                        chooseGuess();
+                        break;
+                    } else {
+                        prevHits.remove(prevHits.size() - 1);
+                        LHlett = prevHits.get(prevHits.size() - 1)[0];
+                        LHnum = prevHits.get(prevHits.size() - 1)[1];
+                    }
                 }
             }
-            if(LHnum > 0){
-                if(!comp.checkGuess(LHlett, LHnum - 1)){
-                    done = false;
-                }
-            }
-            if(LHlett < 9){
-                if(!comp.checkGuess(LHlett + 1, LHnum)){
-                    done = false;
-                }
-            }
-            if(LHnum < 9){
-                if(!comp.checkGuess(LHlett, LHnum + 1)){
-                    done = false;
-                }
-            }
+        }
 
-            if (done) { 
-                if (prevHits.size() == 1) {
-                    prevHits.clear();
-                    prevHit = false;
-                    chooseGuess();
-                    break;
-                } else {
-                    prevHits.remove(prevHits.size() - 1);
-                    LHlett = prevHits.get(prevHits.size() - 1)[0];
-                    LHnum = prevHits.get(prevHits.size() - 1)[1];
-                }
-            }
+        if(user.getBoardAt(guessLett, guessNum) != 1 && user.getBoardAt(guessLett, guessNum) != 0){
+            chooseGuess();
+            checkDuplicate();
         }
     } // checkDuplicate
 
     // check if hit or miss
     private void handleGuess(){
+        
         hit = user.checkHit(guessLett, guessNum);
         comp.guess(hit, guessLett, guessNum);
 
@@ -117,6 +124,7 @@ public class Opponent {
             Integer[] hitLoc = {guessLett, guessNum};
             prevHits.add(hitLoc);
         }
+
     } // handleGuess
 
     // output according to guess
