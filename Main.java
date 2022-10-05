@@ -54,6 +54,9 @@ class Main {
                   // call methods to run the game
                   if (!user.checkGuess(userLett, num)) {
                     user.guess(comp.checkHit(userLett, num), userLett, num);
+                    if(comp.checkSunk(userLett, num)){
+                      System.out.println("You sunk a ship!");
+                    }
                     user.printBoard();
                     badInput = false;
                     winnerOutput(getWinner(user, comp));

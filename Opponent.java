@@ -116,6 +116,9 @@ public class Opponent {
         
         hit = user.checkHit(guessLett, guessNum);
         comp.guess(hit, guessLett, guessNum);
+        if(user.checkSunk(guessLett, guessNum)){
+            System.out.println("Your Opponent sunk a ship!");
+        }
 
         if (hit) {
             LHlett = guessLett;

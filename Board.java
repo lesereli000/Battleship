@@ -5,6 +5,10 @@ public class Board {
   private int[][] Ships = new int[10][10];
   private Ship[] Fleet = new Ship[5];
 
+  private static final String ANSI_RED = "\u001B[31m";
+  private static final String ANSI_RESET = "\u001B[0m";
+  private static final String ANSI_GREEN = "\u001B[32m";
+
   public Board() {
 
     // default 2-D array to all false
@@ -75,7 +79,7 @@ public class Board {
     } else {
       Guess[lett][num] = 2;
     }
-    checkSunk(lett, num);
+    
   }// guess
 
   // check for duplicate guesses
@@ -84,7 +88,7 @@ public class Board {
   }// checkGuess
 
   // check if a ship has been sunk
-  public void checkSunk(int lett, int num) {
+  public boolean checkSunk(int lett, int num) {
     int hit = 0;
 
     for (int k = 0; k < Fleet.length; k++) {
@@ -101,18 +105,16 @@ public class Board {
       }
 
       if (hit == Fleet[k].length()) {
-        System.out.println("You sunk a ship");
-
         for (int i = 0; i <= Fleet[k].getSizeX() - 1; i++) {
           for (int j = 0; j <= Fleet[k].getSizeY() - 1; j++) {
             Ships[Fleet[k].getShipX() + i][Fleet[k].getShipY() + j] = 4;
           }
         }
-
+        return true;
       }
 
     }
-
+    return false;
   }// checkSunk
 
   // check to see if this player is out of unsunk ships
@@ -155,11 +157,11 @@ public class Board {
             break;
 
           case 2:
-            System.out.print("O ");
+            System.out.print(ANSI_GREEN + "O " + ANSI_RESET);
             break;
 
           case 3:
-            System.out.print("X ");
+            System.out.print(ANSI_RED + "X " + ANSI_RESET);
             break;
 
           default:
@@ -171,7 +173,7 @@ public class Board {
       System.out.print("     " + row + " ");
 
       for (int j = 0; j < 10; j++) {
-        System.out.print(Guess[i][j] == 1 ? "X " : Guess[i][j] == 2 ? "O " : ". ");
+        System.out.print(Guess[i][j] == 1 ? (ANSI_GREEN + "X " + ANSI_RESET): Guess[i][j] == 2 ? (ANSI_RED + "O " + ANSI_RESET): ". ");
       }
 
       row++;
